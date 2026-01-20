@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,10 +28,11 @@ const Header = () => {
   }, [isOpen]);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Gallery", href: "#gallery" },
-    { name: "Enroll Now", href: "#enroll" },
+    { name: "Home", href: "/" },
+    { name: "Products", href: "/products" },
+    { name: "About", href: "/#about" },
+    { name: "Services", href: "/#services" },
+    { name: "Gallery", href: "/#gallery" },
   ];
 
   return (
@@ -41,23 +44,36 @@ const Header = () => {
       >
         <nav className="container flex justify-between items-center">
           {/* Logo */}
-          <a href="/" className="relative z-60">
+          <Link to="/" className="relative z-60">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tighter serif text-primary">
               MEZAAJ
             </h1>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 lg:gap-12">
             <ul className="flex gap-6 lg:gap-10">
               {navLinks.map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm font-medium uppercase tracking-[0.2em] text-primary/70 hover:text-accent transition-colors"
-                  >
-                    {link.name}
-                  </a>
+                  {link.href.startsWith("/#") ? (
+                    <a
+                      href={link.href}
+                      className="text-sm font-medium uppercase tracking-[0.2em] text-primary/70 hover:text-accent transition-colors"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className={`text-sm font-medium uppercase tracking-[0.2em] transition-colors ${
+                        location.pathname === link.href
+                          ? "text-accent"
+                          : "text-primary/70 hover:text-accent"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -85,7 +101,7 @@ const Header = () => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-secondary/98 backdrop-blur-xl z-100 flex flex-col justify-center items-center"
+            className="fixed inset-0 bg-secondary/98 backdrop-blur-xl z-70 flex flex-col justify-center items-center"
           >
             <ul className="flex flex-col gap-8 text-center">
               {navLinks.map((link, index) => (
@@ -95,13 +111,27 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * (index + 1) }}
                 >
-                  <a
-                    href={link.href}
-                    className="text-3xl font-serif text-primary hover:text-accent transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.name}
-                  </a>
+                  {link.href.startsWith("/#") ? (
+                    <a
+                      href={link.href}
+                      className="text-3xl font-serif text-primary hover:text-accent transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className={`text-3xl font-serif transition-colors ${
+                        location.pathname === link.href
+                          ? "text-accent"
+                          : "text-primary hover:text-accent"
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </motion.li>
               ))}
               <motion.li
