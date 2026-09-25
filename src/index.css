@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-primary: #1a1a1a;
+  --color-secondary: #fdfbf7;
+  --color-accent: #c5a059;
+  --color-accent-light: #d4b982;
+  --color-text-main: #1a1a1a;
+  --color-text-muted: #666666;
+  --color-card-bg: rgba(255, 255, 255, 0.8);
+  --color-glass-bg: rgba(253, 251, 247, 0.7);
+
+  --shadow-premium: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+  }
+}
+
+@layer base {
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap");
+
+  body {
+    @apply bg-secondary text-text-main font-sans antialiased overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .serif {
+    @apply font-serif;
+  }
+
+  a {
+    @apply transition-all duration-400 ease-out no-underline text-inherit;
+  }
+
+  ul {
+    @apply list-none p-0 m-0;
+  }
+
+  img {
+    @apply max-w-full block;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-glass-bg border border-white/10 backdrop-blur-md;
+  }
+
+  .btn {
+    @apply px-10 py-4 rounded-full font-medium cursor-pointer transition-all duration-400 ease-out inline-block text-[0.95rem] tracking-[0.5px] border-none;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-accent hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(197,160,89,0.2)];
+  }
+
+  .btn-outline {
+    @apply bg-transparent border border-primary text-primary hover:bg-primary hover:text-white hover:-translate-y-0.5;
+  }
+
+  .container {
+    @apply max-w-[1300px] mx-auto px-8 w-full;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-28;
+  }
+}
